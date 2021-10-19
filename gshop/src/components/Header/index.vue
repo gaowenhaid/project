@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-10-18 15:25:45
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-18 16:59:50
+ * @LastEditTime: 2021-10-19 10:53:25
  * @FilePath: \VueProject\gshop\src\components\Header\index.vue
 -->
 <template>
@@ -75,15 +75,7 @@ export default {
       // this.$router.push({name:'search',query:{keyWord:this.keyWord}})
 
       // query 和 params 一块传递
-      this.$router.push({
-        name: "search",
-        query: {
-          key1: this.keyWord.toUpperCase(),
-        },
-        params: {
-          keyWord:this.keyWord
-        },
-      });
+      this.$router.push({name: "search",query: {key1: this.keyWord.toUpperCase()},params: {keyWord:this.keyWord}},()=>{},()=>{});
     },
   },
 };

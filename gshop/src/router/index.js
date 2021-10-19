@@ -1,16 +1,37 @@
 /*
  * @Date: 2021-10-18 15:25:36
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-18 16:50:36
+ * @LastEditTime: 2021-10-19 11:23:02
  * @FilePath: \VueProject\gshop\src\router\index.js
  */
 import Vue from 'vue';
 import VueRouter from 'vue-router'
-import Home from '../pages/Home.vue'
-import Search from '../pages/Search.vue'
-import Register from '../pages/Register.vue'
-import Login from '../pages/Login.vue'
+import Home from '../pages/Home'
+import Search from '../pages/Search'
+import Register from '../pages/Register'
+import Login from '../pages/Login'
 Vue.use(VueRouter)
+
+// 保留原来的 push 方法
+let originPush = VueRouter.prototype.push;
+// 保留原来的 replace 方法
+let originReplace = VueRouter.prototype.replace;
+
+// 修改 push 方法
+VueRouter.prototype.push = function push(location,resolve,reject) {
+    console.log('tag', location,'')
+    if (resolve && reject) originPush.call(this, location,resolve,reject)
+    else originPush.call(this,location,()=>{},()=>{})
+}
+
+
+// 修改 replace 方法
+VueRouter.prototype.replace = function replace(location,resolve,reject) {
+    console.log('tag', location,'')
+    if (resolve && reject) originReplace.call(this, location,resolve,reject)
+    else originReplace.call(this,location,()=>{},()=>{})
+}
+
 export default new VueRouter({
     routes:[
         {
