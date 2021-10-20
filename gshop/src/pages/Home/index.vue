@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-10-18 15:26:21
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-19 19:03:18
+ * @LastEditTime: 2021-10-20 16:13:23
  * @FilePath: \VueProject\gshop\src\pages\Home\index.vue
 -->
 <template>
@@ -25,7 +25,6 @@ import Rank from "./Rank";
 import Like from "./Like";
 import Floor from "./Floor";
 import Brand from "./Brand";
-import { getDataList } from "../../api";
 import "nprogress/nprogress.css"
 
 export default {
@@ -38,12 +37,6 @@ export default {
     Like,
     Floor,
     Brand
-  },
-  async mounted() {
-    console.log('tag', '---------------------------------')
-    let a = await getDataList();
-    console.log('tag',a.data, '')
-    console.log('tag',this, '--==========')
   },
 };
 </script>
