@@ -1,0 +1,71 @@
+<!--
+ * @Date: 2021-10-21 11:14:00
+ * @LastEditors: 高文海
+ * @LastEditTime: 2021-10-21 16:10:04
+ * @FilePath: \VueProject\自定义防抖函数.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button>点我发请求</button>
+  <script>
+
+    let btn = document.querySelector('button');
+    btn.onclick = debounce(function (event) {
+      console.log('tag', '发请求', this, event)
+    }, 2000, false)
+
+
+
+
+    // 定义自己的防抖函数(传递三个参数,第一个为执行的回调,第二个参数为等待的时间,第三个参数为 是否立即执行)
+    function debounce(func, wait, immediate) {
+      let timer, result;
+      // 返回一个 函数
+      let debounced = function () {
+        // 保存 this
+        let context = this
+        // 保存arg里边的 event
+        let args = arguments;
+        // 在进行每一次操作的时候,清除上一次的定时器
+        if (timer) clearTimeout(timer);
+        // 如果第三个参数为 立即执行的话
+        if (immediate) {                    
+          // 立即执行,这里的 timer 目前是undefined 的状态,在这里取反,转为 布尔值就是真
+          let callNow = !timer
+          // 定义一个定时器 将 timer 的状态改为 空
+          timer = setTimeout(function () {
+            timer = null;
+          }, wait);
+          // 如果 callNow 为真,就证明目前需要立即执行函数,那么就将这个方法立即执行
+          if (callNow) result = func.apply(context, args);
+        } else {
+          // 不立即执行,等待指定的时候后执行代码
+          timer = setTimeout(() => {
+            func.apply(context, args)
+          }, wait)
+        }
+        // 为指定的这个函数添加一个取消防抖的方法cancel
+        debounced.cancel = function () {
+          // 将定时器清除
+          clearTimeout(timer)
+          // 防止内存泄漏,将定时器置空
+          timer = null
+        }
+        // 如果是立即执行的话,将 执行的结果返回出去
+        return result
+      }
+      return debounced;
+    }
+  </script>
+</body>
+
+</html>

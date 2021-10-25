@@ -1,0 +1,144 @@
+<!--
+ * @Date: 2021-10-21 15:05:53
+ * @LastEditors: 高文海
+ * @LastEditTime: 2021-10-21 17:27:09
+ * @FilePath: \VueProject\自定义节流函数.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #box1 {
+      width: 500px;
+      height: 500px;
+      background-color: #bfa
+    }
+  </style>
+</head>
+
+<body>
+  <div id='box1'></div>
+  <script>
+    let box = document.getElementById('box1')
+    box.onmousemove = throttle(function () {
+      console.log('tag', '')
+    }, 2000)
+
+
+    //#region
+    // 时间戳来实现第一版的 节流函数 这种方式可以实现  
+    // 第一次刚刚进入执行,出去的时候不执行
+    // 相当于 _.throttle(function(){},200,{leading:true, trailing:false})
+
+    // function throttle(func, wait) {
+    // // 定义一个初始化的时间戳
+    //   let oldTime = 0;
+    // // 返回一个函数
+    //   return function () {
+    //   // 获取到当前的this指向
+    //     let context = this
+    //   // 获取到当前的 event 对象(也就是那个 arguments)
+    //     let args = arguments;
+    //     // 获取当前时间戳(使用 new Date().valueOf()方法)
+    //     let nowTime = new Date().valueOf();
+    //   // 判断: 如果当前时间戳 - 原来到的时间戳 大于 等待时间的话
+    //     if (nowTime - oldTime > wait) {
+    //     // 就让他去执行回调函数
+    //       func.apply(context, arguments);
+    //     // 然后将 原本的时间戳设置为 当前的时间戳
+    //       oldTime = nowTime;
+    //     }
+    //   }
+    // }
+    // #endregion
+
+
+    //#region
+    // 使用定时器来实现 第一次不执行,最后一次执行的效果
+    // 相当于: _.throttle(function(){},200,{leading:false, trailing:true})
+    // function throttle(func,wait) {
+    // // 定义一个空的定时器  args  和 保存 this 的容器
+    //   let timer , args , context;
+    // // 返回一个对象
+    //   return function () {
+    //   // 将 this 保存在容器里
+    //     context = this
+    //   // 将event 对象 保存在 args 里
+    //     args = arguments;
+    // // 判断是否有 timer 这个定时器，如果有的话，将其改为 false 不执行代码
+    // // 如果没有定时器的话，将其改为 true 执行内部代码，输出逻辑代码
+    //     if(!timer) {
+    //       timer = setTimeout(()=>{
+    //         func.apply(context,args);
+    //       // 在最后执行完以后，将 timer 这个定时器重置为 空，要不然以后进不去判断
+    //         timer = null;
+    //       },wait);
+    //     }
+    //   }
+    // }
+    //#endregion
+
+    //#region
+    // 刚开始也执行，最后离开也执行 
+    // 相当于 _.throttle(function(){},200,{leading:true, trailing:true})
+    // function throttle(func, wait) {
+    //   let timer, args, context;
+    //   let oldTime = 0
+    //   let later = function () {
+    //     func.apply(context, args);
+    //     timer = null;
+    //     oldTime = new Date().valueOf()
+    //   }
+    //   return function () {
+    //     context = this
+    //     args = arguments;
+    //     let nowTime = new Date().valueOf()
+    //     if (nowTime - oldTime > wait) {
+    //       if (timer) {
+    //         clearTimeout(timer)
+    //         timer = null;
+    //       }
+    //       func.apply(context, args)
+    //       oldTime = nowTime
+    //     } else if (!timer) {
+    //       timer = setTimeout(later, wait);
+    //     }
+    //   }
+    // }
+    //#endregion
+
+
+    // 优化代码,可以传递第三个参数
+    function throttle(func, wait , config) {
+      let timer, args, context;
+      let oldTime = 0
+      let later = function () {
+        func.apply(context, args);
+        timer = null;
+        oldTime = new Date().valueOf()
+      }
+      return function () {
+        context = this
+        args = arguments;
+        let nowTime = new Date().valueOf()
+        if (nowTime - oldTime > wait) {
+          if (timer) {
+            clearTimeout(timer)
+            timer = null;
+          }
+          func.apply(context, args)
+          oldTime = nowTime
+        } else if (!timer) {
+          timer = setTimeout(later, wait);
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

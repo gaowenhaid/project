@@ -1,0 +1,52 @@
+<!--
+ * @Date: 2021-10-21 14:13:21
+ * @LastEditors: 高文海
+ * @LastEditTime: 2021-10-21 14:43:43
+ * @FilePath: \VueProject\节流函数.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+    <style>
+        #box1 {
+            width: 500px;
+            height: 500px;
+            background-color: #bfa
+        }
+    </style>
+</head>
+
+<body>
+    <div id='box1'></div>
+    <!-- 
+        节流函数:
+            节流函数就是,在你频繁触发一个事件的时候,不管你触发多少次,他只会在规定的时间后执行
+            例如你快熟点击了10次按钮,但是,我规定他2000毫秒执行一次,所以,不管你触发多少次,我只2000毫秒触发一次,
+            为浏览器提供足够的事件去计算,解析,将多次频繁的触发,变为少量的触发
+            语法: 
+                throttle.(执行的回调函数,间隔的时间,{配置对象) 配置对象可写可不写
+                    该函数和 debounce(防抖) 函数一样,会为我们返回一个 函数来作为返回值
+     -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.js"></script>
+    <script>
+        let box = document.getElementById('box1')
+        box.onmousemove = _.throttle(function(){
+            console.log('tag', '')
+        },2000,{
+            // 刚刚进入的时候是否执行
+            leading: false,
+            // 离开时是否执行最后一次
+            trailing: false,
+        })
+
+
+    </script>
+</body>
+
+</html>

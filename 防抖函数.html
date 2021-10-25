@@ -1,0 +1,99 @@
+<!--
+ * @Date: 2021-10-21 09:35:35
+ * @LastEditors: 高文海
+ * @LastEditTime: 2021-10-21 11:31:31
+ * @FilePath: \VueProject\防抖函数.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box{
+            width: 400px;
+            height: 200px;
+            font-size: 40px;
+            background-color: #bfa
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+        防抖函数(debounce):
+            在多次连续的触发一个事件的时候,前面的所有触发都被取消,只执行在规定时间内的最后一次触发
+                将多次触发执行,变为最后一次触发执行
+            例如: 一个按钮绑定了一个发送 ajax 的请求,而用户在一秒之内点击了 500 次发送,这样就会造成数据堵塞,这样的话我们就需要使用防抖函数来进行处理
+            语法:
+                事件回调 = debounce(function(){},2000) 
+            该函数会为我们返回一个函数来作为返回值(高阶函数),
+            需要两个参数(但是有三个参数),
+                第一个参数为: 一个函数,该函数里放着,你需要执行逻辑运算到的代码..一般事件里的回调里写啥,这里放啥
+                第二个参数为: 间隔时间,就是在最后一次执行完毕后,多长时间之后,执行回调函数中的逻辑代码
+                第三个参数为: 一个布尔值,默认值为 false  
+                    当传递的第三个参数为 true 的时候,那么第一次触发回调的时候,会立即执行回调,然后再等规定的时间执行下一次回调,多次点击依然执行最后一次
+                    当参数为 false 的时候, 第一次触发也不会执行执行函数,只有最后一次会执行函数
+     -->
+    <div id="box"></div>
+    <input type="text">
+    <script>
+        let input = document.querySelector('input');
+        let box = document.getElementById('box')
+        // 注意注意：   这里使用箭头函数他的 this 会指向 window
+        // box.addEventListener('click',debounce(()=>{
+        //     console.log('tag',this, '')
+        // },2000))
+        box.addEventListener('click',debounce(function() {
+        // 这里使用 普通函数 this 指向的就是 当前的事件源
+            console.log('tag', this, '我被点了')
+        },2000,true))
+
+        // oninput 事件 : 当input 输入框的文本发生变化的时候,立即就会执行
+        // 这里如果不使用防抖函数的话,单单输入一个张杰的老婆五个字,回调就会执行20次,也就是会发送 20次 ajax请求,是非常不合理的,当数据大的时候,发生数据阻塞        
+        // input.oninput = ()=>{
+        //     console.log('tag','发请求')
+        // }
+        
+        // 这里使用了防抖函数的话,在规定时间内,下一次的请求会将上一次的请求取消,然后再事件完成后,在规定时间内执行最后一次回调函数
+        // 这里的 debounce() 这个玩意就是防抖函数,他会为我们返回一个函数,所以我们可以将他返回的这个函数作为事件的回调函数执行
+        // 后边的 2000 就是,在事件最后一次执行结束后,2000 毫秒以后触发回调函数
+        input.oninput = debounce(function() {
+            console.log('tag', this , '发请求')
+        },2000)
+
+        //#region
+        /**
+         *降频函数
+         *这个 debounce 函数在给定的时间间隔内只允许你提供的回调函数执行一次，以此降低它的执行频率。
+         *调用:	debounce(function() {}, 250) 
+         * @param {*} func回调函数
+         * @param {*} wait等待时间,推荐250
+         * @param {*} immediate
+         * @returns
+         */
+        function debounce(func, wait, immediate) {
+            var timeout
+            return function() {
+                var context = this, args = arguments
+                var later = function() {
+                    timeout = null
+                    if (!immediate) func.apply(context, args)
+                }
+                var callNow = immediate && !timeout
+                clearTimeout(timeout)
+                timeout = setTimeout(later, wait)
+                if (callNow) func.apply(context, args)
+            }
+        }
+        // #endregion
+
+
+        
+    </script>
+</body>
+
+</html>
