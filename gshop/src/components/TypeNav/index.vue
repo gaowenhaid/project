@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-10-19 10:54:40
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-25 20:40:20
+ * @LastEditTime: 2021-10-26 19:51:33
  * @FilePath: \VueProject\gshop\src\components\TypeNav\index.vue
 -->
 <template>
@@ -12,7 +12,7 @@
       <div @mouseleave="clearBg">
         <h2 class="all" @mouseenter="showList">全部商品分类</h2>
         <!-- 只要添加了 v-show||v-if 的组件元素,才可以使用 动画过度的效果 -->
-        <transition mode="out-in" name="sort" appear>
+        <transition name="sort">
           <div class="sort" @click="goSearch" v-show="show">
             <div class="all-sort-list2">
               <!-- 遍历一级数据菜单 -->

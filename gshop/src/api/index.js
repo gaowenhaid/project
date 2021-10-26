@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-10-19 16:47:43
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-25 21:46:06
+ * @LastEditTime: 2021-10-26 21:19:19
  * @FilePath: \VueProject\gshop\src\api\index.js
  */
 // 这里放的就是 将来所有的接口调用,每一个都封装成一个函数,方便统一管理
@@ -25,6 +25,14 @@ export const getContainerList = ()=>{
         // 这里的 request 代表了 axios
   return request({
     url:'/mock/banner',
+    method:'GET',
+  })
+}
+
+// 获取 floor 组件的数据
+export const getFloor = ()=>{
+  return request({
+    url:'/mock/floor',
     method:'GET',
   })
 }

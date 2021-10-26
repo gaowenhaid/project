@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-10-19 10:57:52
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-25 22:00:30
+ * @LastEditTime: 2021-10-26 22:26:56
  * @FilePath: \VueProject\gshop\src\pages\Home\ListContainer\index.vue
 -->
 <template>
@@ -10,28 +10,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/banner1.jpg" />
-            </div>
-            <!-- <div class="swiper-slide">
-              <img src="./images/banner2.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner3.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner4.jpg" />
-            </div> -->
-          </div>
-          <!-- 如果需要分页器 -->
-          <div class="swiper-pagination"></div>
-
-          <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-        </div>
+        <Carousel :bannerList='containerList'/>
       </div>
       <div class="right">
         <div class="news">
@@ -106,11 +85,87 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
+import Swiper from "swiper";
 export default {
   name: "ListContainer",
-  mounted(){
-    this.$store.dispatch('getContainerList')
-  }
+  computed: {
+    ...mapState({
+      containerList: (state) => {
+        return state.home.containerList;
+      },
+    }),
+  },
+  // watch: {
+  //   containerList: {
+  //     immediate: true,
+  //     handler() {
+  //       // 将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。
+  //       // 将 nextTick('回调') 中的回调 延迟到 dom 更新循环完事以后执行,保证所有的节点.dom元素都成功渲染出来
+  //       // 这个方法在工作中特别常用,一般用来和 第三方的插件一起使用,用来获取更新后的 DOM 节点
+  //       this.$nextTick(() => {
+  //         new Swiper(this.$refs.mySwiper, {
+  //           autoplay: true, //可选选项，自动滑动,
+  //           pagination: {
+  //             //分液器
+  //             el: ".swiper-pagination",
+  //           },
+  //           navigation: {
+  //             // 导航按钮
+  //             nextEl: ".swiper-button-next",
+  //             prevEl: ".swiper-button-prev",
+  //           },
+  //           scrollbar: {
+  //             // 滑动条下边的
+  //             el: ".swiper-scrollbar",
+  //           },
+  //           autoplay: {
+  //             // 自动轮播
+  //             delay: 3000,
+  //             stopOnLastSlide: false,
+  //             disableOnInteraction: true,
+  //           },
+  //           effect: "cube", // 视觉效果
+  //           loop: true, // 首尾相接
+  //         });
+  //       });
+  //     },
+  //   },
+  // },
+
+  /*
+    当 mounted 执行的时候,我们才通知 Vuex 中的 actions 向服务器发送请求  获取轮播的数据进行动态展示
+    为什么初始化 swiper 实力在这里书写是不行的, 当mounted执行的时候,页面中的结构还没有完整,也就是说
+     当mounted执行完毕了以后,在 swiper 的结构才完整  先后顺序是有问题的,因为 服务器的请求数据是异步的
+  */
+  mounted() {
+    this.$store.dispatch("getContainerList");
+    // 第一种解决方案
+    // #region
+    // setTimeout(() => {
+    //   new Swiper(this.$refs.mySwiper, {
+    //     autoplay: true, //可选选项，自动滑动,
+    //     pagination: {
+    //       el: ".swiper-pagination",
+    //     },
+    //     navigation: {
+    //       nextEl: ".swiper-button-next",
+    //       prevEl: ".swiper-button-prev",
+    //     },
+    //     scrollbar: {
+    //       el: ".swiper-scrollbar",
+    //     },
+    //     autoplay: {
+    //       delay: 3000,
+    //       stopOnLastSlide: false,
+    //       disableOnInteraction: true,
+    //     },
+    //     effect : 'cube',
+    //     loop : true,
+    //   });
+    // }, 2000);
+    // #endregion
+  },
 };
 </script>
 

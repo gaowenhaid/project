@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-10-18 15:26:21
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-25 19:19:19
+ * @LastEditTime: 2021-10-26 21:38:19
  * @FilePath: \VueProject\gshop\src\pages\Home\index.vue
 -->
 <template>
@@ -11,8 +11,7 @@
     <TodayRecommend />
     <Rank />
     <Like />
-    <Floor />
-    <Floor />
+    <Floor v-for="floor in floorList" :key="floor.id" :floorInfo="floor"/>
     <Brand />
   </div>
 </template>
@@ -24,8 +23,8 @@ import Rank from "./Rank";
 import Like from "./Like";
 import Floor from "./Floor";
 import Brand from "./Brand";
-import "nprogress/nprogress.css"
-
+import "nprogress/nprogress.css";
+import { mapState } from "vuex";
 export default {
   name: "Home",
   components: {
@@ -34,7 +33,17 @@ export default {
     Rank,
     Like,
     Floor,
-    Brand
+    Brand,
+  },
+  mounted() {
+    this.$store.dispatch("getFloorList");
+  },
+  computed: {
+    ...mapState({
+      floorList: (state) => {
+        return state.home.floorList
+      },
+    }),
   },
 };
 </script>
