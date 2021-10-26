@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-10-19 16:47:43
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-19 17:09:15
+ * @LastEditTime: 2021-10-25 21:46:06
  * @FilePath: \VueProject\gshop\src\api\index.js
  */
 // 这里放的就是 将来所有的接口调用,每一个都封装成一个函数,方便统一管理
@@ -17,5 +17,14 @@ export const getDataList = ()=>{
       url:'/api/product/getBaseCategoryList',
     // 配置请求方法
       method:'GET',
+  })
+}
+
+// 获取首页轮播的接口数据方法
+export const getContainerList = ()=>{
+        // 这里的 request 代表了 axios
+  return request({
+    url:'/mock/banner',
+    method:'GET',
   })
 }

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-10-19 10:57:52
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-19 11:03:07
+ * @LastEditTime: 2021-10-25 22:00:30
  * @FilePath: \VueProject\gshop\src\pages\Home\ListContainer\index.vue
 -->
 <template>
@@ -108,6 +108,9 @@
 <script>
 export default {
   name: "ListContainer",
+  mounted(){
+    this.$store.dispatch('getContainerList')
+  }
 };
 </script>
 

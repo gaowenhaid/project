@@ -1,18 +1,30 @@
 /*
  * @Date: 2021-10-18 08:50:14
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-19 18:30:16
+ * @LastEditTime: 2021-10-25 21:59:37
  * @FilePath: \VueProject\gshop\src\main.js
  */
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-Vue.config.productionTip = false
+// 引入相关的 mock 代码,来保证他能够执行一次
+import '@/mock/serve';
 
-let a = new Vue({
+// 测试模拟的数据是否能够返回
+// import {getContainerList} from '@/api'
+// let data = getContainerList()
+// data.then((res)=>{
+//   console.log(res);
+// })
+
+// 全局注册 typeNav组件,因为有很多组件都需要使用typeNav 这个组件
+import TypeNav from '@/components/TypeNav'
+Vue.config.productionTip = false
+// 全局注册,第一个参数 (组件的名字name属性), 第二个参数 组件引入的时候起的名字
+Vue.component('TypeNav',TypeNav)
+new Vue({
   render: h => h(App),
   router,
   store,
 }).$mount('#app')
-console.log('tag',a, '')

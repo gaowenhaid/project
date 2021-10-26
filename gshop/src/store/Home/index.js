@@ -1,31 +1,38 @@
 /*
  * @Date: 2021-10-20 16:09:50
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-20 18:00:53
+ * @LastEditTime: 2021-10-25 22:21:07
  * @FilePath: \VueProject\gshop\src\store\Home\index.js
  */
-import {getDataList} from '@/api'
+import { getDataList, getContainerList } from '@/api'
 const actions = {
-    async getList({commit}){
+    async getList({ commit }) {
         let result = await getDataList()
-        console.log('tag',result.data, '')
         try {
-            commit("GET_DATA_LIST",result.data)
+            commit("GET_DATA_LIST", result.data)
         } catch (error) {
-            console.log(error, '')    
+            console.log(error, '')
         }
-        
-        
+    },
+    async getContainerList({ commit }) {
+        let { data } = await getContainerList();
+        console.log('tag', data, '')
+        commit("Get_Container_List",data)
     }
+
 }
 const mutations = {
-    GET_DATA_LIST(state,value){
+    GET_DATA_LIST(state, value) {
         state.categoryList = value
+    },
+    Get_Container_List(state, value) {
+        state.containerList = value
     }
 }
 const getters = {}
 const state = {
-    categoryList:[]
+    categoryList: [],
+    containerList:[]
 }
 
 export default {

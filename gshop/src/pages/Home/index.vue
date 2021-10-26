@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-10-18 15:26:21
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-20 16:13:23
+ * @LastEditTime: 2021-10-25 19:19:19
  * @FilePath: \VueProject\gshop\src\pages\Home\index.vue
 -->
 <template>
@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import TypeNav from "./TypeNav";
 import ListContainer from "./ListContainer";
 import TodayRecommend from "./TodayRecommend";
 import Rank from "./Rank";
@@ -30,7 +29,6 @@ import "nprogress/nprogress.css"
 export default {
   name: "Home",
   components: {
-    TypeNav,
     ListContainer,
     TodayRecommend,
     Rank,
