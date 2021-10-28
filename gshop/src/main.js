@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-10-18 08:50:14
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-26 22:19:32
+ * @LastEditTime: 2021-10-28 15:30:33
  * @FilePath: \VueProject\gshop\src\main.js
  */
 import Vue from 'vue'
@@ -30,6 +30,9 @@ Vue.component('TypeNav',TypeNav)
 Vue.component('Carousel',Carousel)
 new Vue({
   render: h => h(App),
+  beforeCreate(){
+    Vue.prototype.$bus = this
+  },
   router,
   store,
 }).$mount('#app')

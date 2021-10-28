@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-10-19 10:54:40
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-26 19:51:33
+ * @LastEditTime: 2021-10-28 16:08:55
  * @FilePath: \VueProject\gshop\src\components\TypeNav\index.vue
 -->
 <template>
@@ -128,6 +128,7 @@ export default {
       }
     },
 
+    // 点击三级联动 a 标签以后跳转到 search 组件页面,然后将 query 参数传递过去
     goSearch(event) {
       let nodeElement = event.target;
       let { categoryname, category1id, category2id, category3id } =
@@ -137,15 +138,19 @@ export default {
         let query = { categoryName: categoryname };
         if (category1id) {
           query.category1Id = category1id;
-          console.log("tag", 11111111111111, "");
         } else if (category2id) {
           query.category2Id = category2id;
-          console.log("tag", 2222222222, "");
         } else {
           query.category3Id = category3id;
-          console.log("tag", 33333333333, "");
         }
-        location.query = query;
+        // 在跳转以前,先进行一次判断
+      // (其实这里这个判断是无意义的判断,因为 params 是一个空对象,他永远为 true 所以这个判断永远进的去,这里写只是为了方便阅读代码)
+        if (this.$route.params) {
+          location.query = query;
+          // 如果当前有 params 参数的话,也将 params 一块传递过去 
+          location.params = this.$route.params;
+        }
+      // 跳转
         this.$router.push(location);
       }
     },
@@ -299,20 +304,18 @@ export default {
     // 如果 transition 的标签没有 name 属性的话,那么你的类名会自动变为 v-enter || v-enter-to || v-active
     // 如果有 name 的话 那么就是 name-enter  name-enter-to
     // 起始位置--进入的起始位置
-    .sort-enter{
+    .sort-enter {
       // height: 0;
       opacity: 0;
     }
     // 起始的结束--进入的结束位置
-    .sort-enter-to{
+    .sort-enter-to {
       // height: 463px;
       opacity: 1;
     }
     .sort-enter-active {
-      transition:all .5s;
-      
+      transition: all 0.5s;
     }
-
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-10-19 11:12:40
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-26 22:25:58
+ * @LastEditTime: 2021-10-28 12:54:53
  * @FilePath: \VueProject\gshop\src\pages\Home\Floor\index.vue
 -->
 <template>
@@ -67,7 +67,6 @@
 </template>
 
 <script>
-import Swiper from "swiper";
 export default {
   name: "Floor",
   props: ["floorInfo"],

@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-10-18 15:25:36
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-20 18:41:49
+ * @LastEditTime: 2021-10-28 16:18:14
  * @FilePath: \VueProject\gshop\src\router\index.js
  */
 import Vue from 'vue';
@@ -45,7 +45,7 @@ export default new VueRouter({
             // path:'/search/:keyWord',
 
             // query传递参数
-            path:'/search',
+            path:'/search/:keyword?',
             name:'search',
             component:Search,
             meta:{show:true},
@@ -55,9 +55,9 @@ export default new VueRouter({
             // props:{keyWord:"2asdas",a:1,b:2}
 
             // 函数形式传递 props 参数
-            // props(route){
-            //     return {...route.query}
-            // }
+            props(route){
+                return {...route.query,...route.params}
+            }
         },
         {
             path:'/login',

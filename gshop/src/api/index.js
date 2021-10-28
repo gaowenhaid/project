@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-10-19 16:47:43
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-26 21:19:19
+ * @LastEditTime: 2021-10-28 14:00:17
  * @FilePath: \VueProject\gshop\src\api\index.js
  */
 // 这里放的就是 将来所有的接口调用,每一个都封装成一个函数,方便统一管理
@@ -34,5 +34,29 @@ export const getFloor = ()=>{
   return request({
     url:'/mock/floor',
     method:'GET',
+  })
+}
+
+// 获取搜索页面的 数据
+// 需要携带的参数
+// {
+  // "category1Id": "61",                   一级联动的 id
+  // "category2Id": "61",                   二级联动的 id
+//   "category3Id": "61",                   三级联动的 id
+//   "categoryName": "手机",                点击的内容
+//   "keyword": "小米",                     点击搜索按钮,传递的关键字
+//   "order": "1:desc",                     排序(升序还是降序)
+//   "pageNo": 1,                           显示当前在第几页
+//   "pageSize": 10,                        一页展示多少条数据
+//   "props": ["1:1700-2799:价格", "2:6.65-6.74英寸:屏幕尺寸"],     平台属性参数的选择
+//   "trademark": "4:小米"                       品牌的选择
+// }
+
+// 由于发送的是 post 请求,需要携带参数,所以我们需要在外部传递一个参数
+export const getSearchList = (data)=>{
+  return request({
+    url:'/api/list',
+    method:'POST',
+    data
   })
 }

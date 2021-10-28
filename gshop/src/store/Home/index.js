@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-10-20 16:09:50
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-26 21:24:17
+ * @LastEditTime: 2021-10-28 16:10:06
  * @FilePath: \VueProject\gshop\src\store\Home\index.js
  */
 import { getDataList, getContainerList, getFloor } from '@/api'
@@ -18,7 +18,6 @@ const actions = {
     // 首页轮播的请求
     async getContainerList({ commit }) {
         let { data } = await getContainerList();
-        console.log('tag', data, '')
         commit("Get_Container_List", data)
     },
     // floor 组件的请求

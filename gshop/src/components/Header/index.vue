@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-10-18 15:25:45
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-19 10:53:25
+ * @LastEditTime: 2021-10-28 16:38:11
  * @FilePath: \VueProject\gshop\src\components\Header\index.vue
 -->
 <template>
@@ -42,7 +42,7 @@
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
-            v-model="keyWord"
+            v-model="keyword"
           />
           <button
             class="sui-btn btn-xlarge btn-danger"
@@ -62,12 +62,12 @@ export default {
   name: "Header",
   data() {
     return {
-      keyWord: "",
+      keyword: "",
     };
   },
   methods: {
     getSearch() {
-      console.log("tag", this.$route.params.keyWord, "");
+
       // params 传递参数
       // this.$router.push({name:'search',params:{keyWord:this.keyWord}})
 
@@ -75,9 +75,24 @@ export default {
       // this.$router.push({name:'search',query:{keyWord:this.keyWord}})
 
       // query 和 params 一块传递
-      this.$router.push({name: "search",query: {key1: this.keyWord.toUpperCase()},params: {keyWord:this.keyWord}},()=>{},()=>{});
+      // 判断当前是否有 query 参数
+      if(this.$route.query){
+        // 定义地址栏
+      let location = {name: "search",params: {keyword:this.keyword || undefined } }
+      // 如果有 query 参数,将其 添加到 location 中
+      location.query = this.$route.query
+      // 进行跳转
+      this.$router.push(location);
+      
+      
+      }
     },
   },
+  mounted() {
+    this.$bus.$on('clearKeyWord',()=>{
+      this.keyword = ''
+    })
+  }
 };
 </script>
 
