@@ -1,13 +1,13 @@
 /*
  * @Date: 2021-10-20 16:09:46
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-28 16:09:20
+ * @LastEditTime: 2021-10-29 16:17:37
  * @FilePath: \VueProject\gshop\src\store\Search\index.js
  */
 import { getSearchList } from '@/api'
 const actions = {
     // 获取搜索页面的数据的函数
-    async searchList({ commit },data) {
+    async searchList({ commit }, data) {
         try {
             let result = await getSearchList(data)
             if (result.code === 200) {
@@ -26,9 +26,14 @@ const mutations = {
 }
 const getters = {
     // 获取 商品展示的数据
-    goodsList(state){
-        return state.searchList.goodsList
-    }
+    goodsList: state => state.searchList.goodsList,
+
+    // 获取 品牌数据
+    trademarkList: state => state.searchList.trademarkList,
+
+    // 获取 属性参数的数据
+    attrsList: state => state.searchList.attrsList
+
 
 
 }
