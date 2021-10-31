@@ -1,8 +1,8 @@
 /*
  * @Date: 2021-10-18 08:50:14
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-28 15:30:33
- * @FilePath: \VueProject\gshop\src\main.js
+ * @LastEditTime: 2021-10-30 18:27:14
+ * @FilePath: \gshop\src\main.js
  */
 import Vue from 'vue'
 import App from './App.vue'
@@ -24,10 +24,14 @@ import '@/mock/serve';
 // 全局注册 typeNav组件,因为有很多组件都需要使用typeNav 这个组件
 import TypeNav from '@/components/TypeNav'
 import Carousel from '@/components/Carousel'
+import Pagination from '@/components/Pagination'
 Vue.config.productionTip = false
 // 全局注册,第一个参数 (组件的名字name属性), 第二个参数 组件引入的时候起的名字
-Vue.component('TypeNav',TypeNav)
-Vue.component('Carousel',Carousel)
+Vue.component(TypeNav.name,TypeNav)
+// 全局注册轮播图的组件
+Vue.component(Carousel.name,Carousel)
+
+Vue.component(Pagination.name,Pagination)
 new Vue({
   render: h => h(App),
   beforeCreate(){

@@ -1,8 +1,8 @@
 <!--
  * @Date: 2021-10-19 10:54:40
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-28 16:08:55
- * @FilePath: \VueProject\gshop\src\components\TypeNav\index.vue
+ * @LastEditTime: 2021-10-31 16:32:38
+ * @FilePath: \gshop\src\components\TypeNav\index.vue
 -->
 <template>
   <!-- 商品分类导航 -->
@@ -144,14 +144,19 @@ export default {
           query.category3Id = category3id;
         }
         // 在跳转以前,先进行一次判断
-      // (其实这里这个判断是无意义的判断,因为 params 是一个空对象,他永远为 true 所以这个判断永远进的去,这里写只是为了方便阅读代码)
+        // (其实这里这个判断是无意义的判断,因为 params 是一个空对象,他永远为 true 所以这个判断永远进的去,这里写只是为了方便阅读代码)
         if (this.$route.params) {
           location.query = query;
-          // 如果当前有 params 参数的话,也将 params 一块传递过去 
+          // 如果当前有 params 参数的话,也将 params 一块传递过去
           location.params = this.$route.params;
         }
-      // 跳转
-        this.$router.push(location);
+        // 跳转
+        // 判断当前是在那个页面跳转的是决定使用 push  还是 replace
+        if (this.$route.path != "/home") {
+          this.$router.replace(location);
+        } else {
+          this.$router.push(location);
+        }
       }
     },
 

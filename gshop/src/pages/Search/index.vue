@@ -79,7 +79,9 @@
               <li class="yui3-u-1-5" v-for="good in goodsList" :key="good.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a> <img :src="good.defaultImg" /></a>
+                    <router-link :to="`/detail/${good.id}`">
+                      <img :src="good.defaultImg" />
+                    </router-link>
                   </div>
                   <div
                     class="price"
@@ -108,35 +110,16 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <!-- 分页器 -->
+          <!-- <div class="fr page"> -->
+          <Pagination
+            :total="total"
+            :pageNo="searchGoodList.pageNo"
+            :pageSize="searchGoodList.pageSize"
+            :continues="5"
+            @goSearchPage="goSearchPage"
+          />
+          <!-- </div> -->
         </div>
       </div>
     </div>
@@ -145,7 +128,7 @@
 
 <script>
 import SearchSelector from "./SearchSelector/SearchSelector";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default {
   name: "Search",
   data() {
@@ -230,7 +213,6 @@ export default {
       // 创建一个新的数据来保存变化后的数据
       let newOrder = "";
 
-
       // 判断当前外部传入的是 1 还是 2 ,
       if (originId == flag) {
         // 如果与原来的 id 一样的话,就证明当前用户点击的是,已经高亮显示的那个按钮,那么就需要将 排序方式进行一个修改
@@ -251,6 +233,11 @@ export default {
         this.SearchList();
       }
     },
+    // 子组件点击某一个页码,将数据发送过来,我们在这里进行跳转
+    goSearchPage(page) {
+      this.searchGoodList.pageNo = page;
+      this.SearchList();
+    },
   },
   computed: {
     ...mapGetters(["goodsList"]),
@@ -270,6 +257,10 @@ export default {
     isAsc() {
       return this.searchGoodList.order.indexOf("asc") != -1;
     },
+    // 获取总页数 , 一页展示多少数据, 和 总条数的数据
+    ...mapState({
+      total: (state) => state.search.searchList.total,
+    }),
   },
   // 使用监视属性,监视 路由的路径是否发生变化,如果发生变化,就立刻去发送请求
   watch: {

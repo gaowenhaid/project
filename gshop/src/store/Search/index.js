@@ -1,8 +1,8 @@
 /*
  * @Date: 2021-10-20 16:09:46
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-29 16:17:37
- * @FilePath: \VueProject\gshop\src\store\Search\index.js
+ * @LastEditTime: 2021-10-31 17:04:20
+ * @FilePath: \gshop\src\store\Search\index.js
  */
 import { getSearchList } from '@/api'
 const actions = {
@@ -32,7 +32,8 @@ const getters = {
     trademarkList: state => state.searchList.trademarkList,
 
     // 获取 属性参数的数据
-    attrsList: state => state.searchList.attrsList
+    attrsList: state => state.searchList.attrsList,
+
 
 
 

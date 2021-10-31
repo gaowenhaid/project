@@ -1,8 +1,8 @@
 <!--
  * @Date: 2021-10-18 15:25:45
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-28 16:38:11
- * @FilePath: \VueProject\gshop\src\components\Header\index.vue
+ * @LastEditTime: 2021-10-31 17:45:20
+ * @FilePath: \gshop\src\components\Header\index.vue
 -->
 <template>
   <header class="header">
@@ -81,8 +81,13 @@ export default {
       let location = {name: "search",params: {keyword:this.keyword || undefined } }
       // 如果有 query 参数,将其 添加到 location 中
       location.query = this.$route.query
-      // 进行跳转
-      this.$router.push(location);
+      // 进行跳转(修改push 和 replace)
+      if(this.$route.path !== "/home"){
+        this.$router.replace(location);
+      }else{
+        this.$router.push(location);
+      }
+      
       
       
       }
