@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-10-19 16:47:43
  * @LastEditors: 高文海
- * @LastEditTime: 2021-11-01 20:42:15
+ * @LastEditTime: 2021-11-02 19:03:43
  * @FilePath: \gshop\src\api\index.js
  */
 // 这里放的就是 将来所有的接口调用,每一个都封装成一个函数,方便统一管理
@@ -75,5 +75,13 @@ export const getShopCarOrUpdate = (skuId,skuNum) => {
   return request({
     url:`/api/cart/addToCart/${skuId}/${skuNum}`,
     method: 'POST'
+  })
+}
+
+// 获取购物车的数据
+export const getShopCart = () => {
+  return request({
+    url:'/api/cart/cartList',
+    method: 'GET'
   })
 }

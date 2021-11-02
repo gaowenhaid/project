@@ -13,8 +13,9 @@
           </div>
         </div>
         <div class="right-gocart">
-          <a href="javascript:" class="sui-btn btn-xlarge">查看商品详情</a>
-          <a href="javascript:" >去购物车结算 > </a>
+          <!-- 点击 查看商品详情后 跳转回 /detail 路由  一定要携带参数,然而参数就是 skuInfo 的 id 值 -->
+          <router-link :to="`/detail/${skuInfo.id}`"  class="sui-btn btn-xlarge">查看商品详情</router-link>
+          <router-link to='/shopcart' >去购物车结算 > </router-link>
         </div>
       </div>
     </div>

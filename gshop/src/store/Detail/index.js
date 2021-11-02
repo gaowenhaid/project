@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-10-31 18:06:12
  * @LastEditors: 高文海
- * @LastEditTime: 2021-11-01 21:13:04
+ * @LastEditTime: 2021-11-02 21:47:29
  * @FilePath: \gshop\src\store\Detail\index.js
  */
 import { getDetailData , getShopCarOrUpdate} from '@/api'
@@ -19,7 +19,7 @@ const actions = {
     if(result.code == 200){
       return 'ok'
     }else{
-      return Promise.reject(new Error('failed'))
+      return Promise.reject(new Error('失败'))
     }
   }
 }
