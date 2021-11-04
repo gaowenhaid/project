@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-10-18 15:25:45
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-31 17:45:20
+ * @LastEditTime: 2021-11-04 17:37:29
  * @FilePath: \gshop\src\components\Header\index.vue
 -->
 <template>
@@ -19,7 +19,7 @@
         </div>
         <div class="typeList">
           <a href="###">我的订单</a>
-          <a href="###">我的购物车</a>
+          <router-link to='/shopcart'>我的购物车</router-link>
           <a href="###">我的尚品汇</a>
           <a href="###">尚品汇会员</a>
           <a href="###">企业采购</a>

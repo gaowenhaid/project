@@ -1,8 +1,8 @@
 <!--
  * @Date: 2021-10-19 10:57:52
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-26 22:26:56
- * @FilePath: \VueProject\gshop\src\pages\Home\ListContainer\index.vue
+ * @LastEditTime: 2021-11-04 18:38:26
+ * @FilePath: \gshop\src\pages\Home\ListContainer\index.vue
 -->
 <template>
   <!--列表-->
@@ -86,7 +86,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import Swiper from "swiper";
+// import Swiper from "swiper";
 export default {
   name: "ListContainer",
   computed: {
@@ -240,7 +240,7 @@ export default {
           width: 25%;
 
           .list-item {
-            background-image: url(./images/icons.png);
+            background-image: url(~@/assets/images/icons.png);
             width: 61px;
             height: 40px;
             display: block;

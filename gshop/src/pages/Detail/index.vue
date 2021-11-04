@@ -348,6 +348,7 @@
 </template>
 
 <script>
+import debounce from "lodash/debounce";
 import ImageList from "./ImageList/ImageList";
 import Zoom from "./Zoom/Zoom";
 import { mapGetters, mapState } from "vuex";
@@ -395,27 +396,23 @@ export default {
       }
     },
     // 加入添加到购物车的回调函数
-    async addShopCar() {
+    addShopCar: debounce(async function () {
       try {
         await this.$store.dispatch("addShopCarList", {
           skuId: this.$route.params.skuId,
           skuNum: this.current,
         });
-
-
-        setTimeout(() => {
-          alert("添加成功");
-          // 点击 加入购物车以后,将商品信息保存在 会话存储中方便往出读取(需要两个参数,第一个是存给谁,第二个是存谁)
-          sessionStorage.setItem('SKUINFO',JSON.stringify(this.skuInfo));
-          this.$router.push({
-            name: "addcartsuccess",
-            query: { skuNum: this.current },
-          });
-        }, 200);
+        alert("添加成功");
+        // 点击 加入购物车以后,将商品信息保存在 会话存储中方便往出读取(需要两个参数,第一个是存给谁,第二个是存谁)
+        sessionStorage.setItem("SKUINFO", JSON.stringify(this.skuInfo));
+        this.$router.replace({
+          name: "addcartsuccess",
+          query: { skuNum: this.current },
+        });
       } catch (error) {
         alert("加入购物车失败");
       }
-    },
+    }, 1000),
   },
   created() {
     this.$store.dispatch("getDetail", this.$route.params.skuId);

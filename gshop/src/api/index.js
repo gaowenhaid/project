@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-10-19 16:47:43
  * @LastEditors: 高文海
- * @LastEditTime: 2021-11-02 19:03:43
+ * @LastEditTime: 2021-11-04 20:27:43
  * @FilePath: \gshop\src\api\index.js
  */
 // 这里放的就是 将来所有的接口调用,每一个都封装成一个函数,方便统一管理
@@ -83,5 +83,55 @@ export const getShopCart = () => {
   return request({
     url:'/api/cart/cartList',
     method: 'GET'
+  })
+}
+
+// 删除购物车中的物品的回调函数
+export const getDeleteShop = (skuId)=>{
+  return request({
+    url:`/api/cart/deleteCart/${skuId}`,
+    method:'DELETE'
+  })
+}
+
+
+// 修改 购物车中的商品是否选中的回调函数
+export const getChangeCheck = (skuId,isChecked) => {
+  return request({
+    url:`/api/cart/checkCart/${skuId}/${isChecked}`,
+    method:'get'
+  })
+}
+
+// 获取验证码的回调函数
+export const getCode = (iphone) => {
+  return request({
+    url:`/api/user/passport/sendCode/${iphone}`,
+    method:'GET'
+  })
+}
+
+
+// 完成注册后的回调函数
+export const finishRegister = (phone,password,code) => {
+  return request({
+    url:'/api/user/passport/register',
+    method:'POST',
+    data:{
+      phone,
+      password,
+      code
+    }
+  })
+}
+
+// 登录的回调
+export const getLogin = (phone,password) => {
+  return request({
+    url:'/api/user/passport/login',
+    method:'POST',
+    data:{ 
+      phone,password
+    }
   })
 }

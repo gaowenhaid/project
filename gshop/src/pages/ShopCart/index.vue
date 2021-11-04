@@ -13,7 +13,12 @@
       <div class="cart-body">
         <ul class="cart-list" v-for="(shop, index) in shopList" :key="shop.id">
           <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" />
+            <input
+              type="checkbox"
+              name="chk_list"
+              v-model="shop.isChecked"
+              @change="updateCheck($event, shop)"
+            />
           </li>
           <li class="cart-list-con2">
             <img :src="shop.imgUrl" />
@@ -51,7 +56,7 @@
             <span class="sum">{{ shop.cartPrice * shop.skuNum }}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="#none" class="sindelet">删除</a>
+            <a class="sindelet" @click="deleteShop(shop)">删除</a>
             <br />
             <a href="#none">移到收藏</a>
           </li>
@@ -60,11 +65,16 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" />
+        <input
+          class="chooseAll"
+          type="checkbox"
+          v-model="isAllChecked"
+          @change="changeAllCheck"
+        />
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a @click="deleteAllCheckShop">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -123,7 +133,6 @@ export default {
             shopNum = 0;
           } else {
             shopNum = parseInt(shopNum - shop.skuNum);
-            console.log(shopNum, "");
           }
           break;
       }
@@ -140,7 +149,57 @@ export default {
         // 如果失败了的话,就弹出一个 修改失败
         alert("修改失败!");
       }
-    },2000),
+    }, 2000),
+
+    //删除购物车中的单个商品的回调函数(接收一个参数,就是当前点击的那个商品)
+    async deleteShop(shop) {
+      try {
+        // 点击删除按钮后,向 actions 派发删除任务,让他发请求
+        await this.$store.dispatch("deleteShop", shop.skuId);
+        // 在发送请求成功后,再次调用 getShopCartList 获取商品数据列表,进行更新展示
+        this.getShopCartList();
+      } catch (error) {
+        alert("删除失败");
+      }
+    },
+    // 修改购物车数据是否选中的回调函数,需要传递一个参数,就是当前点击的单选框 是否选中
+    async updateCheck(event, shop) {
+      try {
+        let isChecked = event.target.checked ? 1 : 0;
+        await this.$store.dispatch("changeCheck", {
+          skuId: shop.skuId,
+          isChecked,
+        });
+        this.getShopCartList();
+      } catch (error) {
+        alert("修改失败");
+      }
+    },
+
+    // 全选按钮的回调
+    async changeAllCheck(event) {
+      // 因为 我们在发请求那返回了一个 promise 对象,所以我们在这里就可以使用 try catch 来接收
+      try {
+        // 定义 是否选中的状态 1 还是 0
+        let isChecked = event.target.checked ? 1 : 0;
+        // 发送一次请求
+        await this.$store.dispatch("changeAllCheck", isChecked);
+        // 然后重新调用获取数据,更新数据
+        this.getShopCartList();
+      } catch (error) {
+        alert("修改失败");
+      }
+    },
+
+    // 删除已选中的回调
+    async deleteAllCheckShop() {
+      try {
+        await this.$store.dispatch("deleteAllCheckShop");
+        this.getShopCartList();
+      } catch (error) {
+        alert("删除失败")
+      }
+    },
   },
   computed: {
     // 通过 mapGetters 读取出 vuex 中计算出的 商品数据的那个对象
@@ -161,6 +220,10 @@ export default {
       });
       // 将计算变量返回
       return sum;
+    },
+    // 计算出 全选框是否选中,他的选中根据数组中的所有元素来判断的
+    isAllChecked() {
+      return this.shopList.every(item => item.isChecked === 1 ) && this.shopList.length > 0;
     },
   },
   // 在组件刚刚挂载的时候,发送请求,获取购物车的数据,

@@ -1,16 +1,16 @@
 /*
  * @Date: 2021-10-31 17:53:57
  * @LastEditors: 高文海
- * @LastEditTime: 2021-11-02 19:01:38
+ * @LastEditTime: 2021-11-04 19:10:54
  * @FilePath: \gshop\src\router\routers.js
  */
 import Home from '@/pages/Home'
 import Search from '@/pages/Search'
-import Register from '@/pages/Register'
-import Login from '@/pages/Login'
 import Detail from '@/pages/Detail'
 import AddCartSuccess from '@/pages/AddCartSuccess'
 import ShopCart from '@/pages/ShopCart'
+import Login from '@/pages/Login'
+import Register from '@/pages/Register'
 export default [
     {
         path: '/home',
@@ -70,6 +70,5 @@ export default [
         component: ShopCart,
         meta: { show: true },
         name: 'shopcart'
-
     }
 ]
