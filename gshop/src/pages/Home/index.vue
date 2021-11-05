@@ -1,7 +1,7 @@
 <!--
  * @Date: 2021-10-18 15:26:21
  * @LastEditors: 高文海
- * @LastEditTime: 2021-10-26 21:38:19
+ * @LastEditTime: 2021-11-05 22:07:55
  * @FilePath: \VueProject\gshop\src\pages\Home\index.vue
 -->
 <template>
@@ -37,6 +37,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getFloorList");
+    // 在组件挂载的时候,向服务器发送请求,获取用户信息
+    // this.$store.dispatch('getUserInfo')
   },
   computed: {
     ...mapState({

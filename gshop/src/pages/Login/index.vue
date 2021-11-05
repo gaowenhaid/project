@@ -92,6 +92,7 @@ export default {
         let { phone, password } = this;
         if (phone && password) {
           await this.$store.dispatch("login", { phone, password });
+          this.$router.push({name:'home'})
         } else {
           alert("账号或密码不能为空");
         }

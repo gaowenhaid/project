@@ -1,10 +1,11 @@
 /*
  * @Date: 2021-11-04 19:05:06
  * @LastEditors: 高文海
- * @LastEditTime: 2021-11-04 20:59:13
- * @FilePath: \gshop\src\store\User\index.js
+ * @LastEditTime: 2021-11-05 20:20:15
+ * @FilePath: \VueProject\gshop\src\store\User\index.js
  */
-import {getCode,finishRegister,getLogin} from '@/api'
+import {getCode,finishRegister,getLogin,getUserInfo,getLogOut} from '@/api';
+import {setToken , getToken , clearToken} from '@/utils/token'
 const actions = {
     // 获取验证码
     async getCode({commit},iphone){
@@ -30,10 +31,26 @@ const actions = {
         let result = await getLogin(phone, password)
         if(result.code === 200){
             commit('SET_TOKEN',result.data.token)
-            console.log(result)
+        // 在获取到 token 之后,不仅仅往 state 中存一份,再往 本地存储仓库里边存一份
+            setToken(result.data.token)
             return 'ok'
         }else{
             return Promise.reject(result.message)
+        }
+    },
+    // 获取用户的信息
+    async getUserInfo({ commit}) {
+        let {code,data} = await getUserInfo()
+        if(code === 200){
+            commit('GET_USER_INFO',data)
+        }
+        
+    },
+    // 用户退出登录
+    async logOut({commit}){
+        let {code} = await getLogOut()
+        if(code === 200){
+            commit('LOG_OUT')
         }
     }
 }
@@ -46,6 +63,17 @@ const mutations = {
     //设置 token
     SET_TOKEN(state, value){
         state.token = value
+    },
+    // 保存用户的详细信息
+    GET_USER_INFO(state,value){
+        state.userInfo = value
+    },
+    // 退出登录.清空state和本地存储仓库中的的所有数据
+    LOG_OUT(state){
+        state.userInfo = {},
+        state.token = '',
+        // 清除 token 的封装的函数
+        clearToken()
     }
 }
 
@@ -54,8 +82,12 @@ const getters = {
 }
 
 const state = {
+    // 验证码
     code:'',
-    token:'',
+    // 在这里读取的话,就直接读取 本地仓库的数据就行了
+    token:getToken(),
+    // 用户的详细信息
+    userInfo:{}
 }
 
 

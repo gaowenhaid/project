@@ -1,8 +1,8 @@
 /*
  * @Date: 2021-10-19 16:47:43
  * @LastEditors: 高文海
- * @LastEditTime: 2021-11-04 20:27:43
- * @FilePath: \gshop\src\api\index.js
+ * @LastEditTime: 2021-11-05 20:15:25
+ * @FilePath: \VueProject\gshop\src\api\index.js
  */
 // 这里放的就是 将来所有的接口调用,每一个都封装成一个函数,方便统一管理
 
@@ -133,5 +133,21 @@ export const getLogin = (phone,password) => {
     data:{ 
       phone,password
     }
+  })
+}
+
+// 获取用户信息的回调函数
+export const getUserInfo = () => {
+  return request({
+    url:'/api/user/passport/auth/getUserInfo',
+    method: 'GET',
+  })
+}
+
+// 退出登录的回调函数
+export const getLogOut = () => {
+  return request({
+    url:'/api/user/passport/logout',
+    method: 'GET',
   })
 }

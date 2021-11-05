@@ -1,8 +1,8 @@
 /*
  * @Date: 2021-10-19 16:37:02
  * @LastEditors: 高文海
- * @LastEditTime: 2021-11-02 20:18:55
- * @FilePath: \gshop\src\api\request.js
+ * @LastEditTime: 2021-11-05 19:54:06
+ * @FilePath: \VueProject\gshop\src\api\request.js
  */
 // 导入进度条的包
 import nprogress from 'nprogress'
@@ -56,6 +56,13 @@ request.interceptors.request.use((config) => {
     if(store.state.shopcart.userTempId){
         // 就在在请求头中 添加上 vuex 中的id 属性值
         config.headers.userTempId = store.state.shopcart.userTempId
+    }
+
+    // 在请求头中携带 token 获取用户的详细信息
+    // 如果当前仓库中的 token 有值的话
+    if(store.state.user.token){
+    // 就将值携带在 请求头中
+        config.headers.token = store.state.user.token
     }
     return config
 })

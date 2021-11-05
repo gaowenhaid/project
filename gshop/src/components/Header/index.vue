@@ -1,8 +1,8 @@
 <!--
  * @Date: 2021-10-18 15:25:45
  * @LastEditors: 高文海
- * @LastEditTime: 2021-11-04 17:37:29
- * @FilePath: \gshop\src\components\Header\index.vue
+ * @LastEditTime: 2021-11-05 20:13:38
+ * @FilePath: \VueProject\gshop\src\components\Header\index.vue
 -->
 <template>
   <header class="header">
@@ -11,15 +11,18 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="!userInfo.name">
             <span>请</span>
             <router-link to="/login">登录</router-link>
             <router-link to="/register" class="register">免费注册</router-link>
           </p>
+          <p v-else>{{userInfo.name}} <a class="register" @click="logOut">退出登录</a></p>
+          
+          
         </div>
         <div class="typeList">
           <a href="###">我的订单</a>
-          <router-link to='/shopcart'>我的购物车</router-link>
+          <router-link to="/shopcart">我的购物车</router-link>
           <a href="###">我的尚品汇</a>
           <a href="###">尚品汇会员</a>
           <a href="###">企业采购</a>
@@ -58,6 +61,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "Header",
   data() {
@@ -67,7 +71,6 @@ export default {
   },
   methods: {
     getSearch() {
-
       // params 传递参数
       // this.$router.push({name:'search',params:{keyWord:this.keyWord}})
 
@@ -76,28 +79,37 @@ export default {
 
       // query 和 params 一块传递
       // 判断当前是否有 query 参数
-      if(this.$route.query){
+      if (this.$route.query) {
         // 定义地址栏
-      let location = {name: "search",params: {keyword:this.keyword || undefined } }
-      // 如果有 query 参数,将其 添加到 location 中
-      location.query = this.$route.query
-      // 进行跳转(修改push 和 replace)
-      if(this.$route.path !== "/home"){
-        this.$router.replace(location);
-      }else{
-        this.$router.push(location);
-      }
-      
-      
-      
+        let location = {
+          name: "search",
+          params: { keyword: this.keyword || undefined },
+        };
+        // 如果有 query 参数,将其 添加到 location 中
+        location.query = this.$route.query;
+        // 进行跳转(修改push 和 replace)
+        if (this.$route.path !== "/home") {
+          this.$router.replace(location);
+        } else {
+          this.$router.push(location);
+        }
       }
     },
+    // 退出登录的逻辑
+    logOut(){
+      this.$store.dispatch('logOut')
+    }
+  },
+  computed: {
+    ...mapState({
+      userInfo: (state) => state.user.userInfo,
+    }),
   },
   mounted() {
-    this.$bus.$on('clearKeyWord',()=>{
-      this.keyword = ''
-    })
-  }
+    this.$bus.$on("clearKeyWord", () => {
+      this.keyword = "";
+    });
+  },
 };
 </script>
 
