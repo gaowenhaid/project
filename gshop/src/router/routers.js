@@ -1,8 +1,8 @@
 /*
  * @Date: 2021-10-31 17:53:57
  * @LastEditors: 高文海
- * @LastEditTime: 2021-11-04 19:10:54
- * @FilePath: \gshop\src\router\routers.js
+ * @LastEditTime: 2021-11-07 22:36:09
+ * @FilePath: \VueProject\gshop\src\router\routers.js
  */
 import Home from '@/pages/Home'
 import Search from '@/pages/Search'
@@ -11,6 +11,10 @@ import AddCartSuccess from '@/pages/AddCartSuccess'
 import ShopCart from '@/pages/ShopCart'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
+import Trade from '@/pages/Trade' 
+import Pay from '@/pages/Pay'
+import PaySuccess from '@/pages/PaySuccess'
+// import Demo from '@/pages/Demo'
 export default [
     {
         path: '/home',
@@ -70,5 +74,23 @@ export default [
         component: ShopCart,
         meta: { show: true },
         name: 'shopcart'
+    },
+    {
+        path:'/trade',
+        component: Trade,
+        meta: { show: true },
+        name: 'trade'
+    },
+    {
+        path:'/pay',
+        component: Pay,
+        meta: { show: true },
+        name: 'pay'
+    },
+    {
+        path:'/paysuccess',
+        component: PaySuccess,
+        meta: { show: true },
+        name: 'paysuccess'
     }
 ]

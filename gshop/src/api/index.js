@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-10-19 16:47:43
  * @LastEditors: 高文海
- * @LastEditTime: 2021-11-05 20:15:25
+ * @LastEditTime: 2021-11-07 22:18:27
  * @FilePath: \VueProject\gshop\src\api\index.js
  */
 // 这里放的就是 将来所有的接口调用,每一个都封装成一个函数,方便统一管理
@@ -149,5 +149,55 @@ export const getLogOut = () => {
   return request({
     url:'/api/user/passport/logout',
     method: 'GET',
+  })
+}
+
+
+// 获取用户地址信息
+// /api/user/userAddress/auth/findUserAddressList
+export const getUserAddress = () => {
+  return request({
+    url:'/api/user/userAddress/auth/findUserAddressList',
+    method: 'GET',
+  })
+}
+
+// 获取订单交易页面的信息
+// /api/order/auth/trade
+export const getTradeList = () => {
+  return request({
+    url:`/api/order/auth/trade`,
+    method: 'GET'
+  })
+}
+
+
+// 提提交订单的信息
+// /api/order/auth/submitOrder?tradeNo={tradeNo}
+export const getOrderList = (tradeNo,data) => {
+  return request({
+    url:`/api/order/auth/submitOrder?tradeNo=${tradeNo}`,
+    method: 'POST',
+    data
+  })
+}
+
+
+// 获取支付信息
+// /api/payment/weixin/createNative/{orderId}
+export const getPayInfo = (orderId) => {
+  return request({
+    url:`/api/payment/weixin/createNative/${orderId}`,
+    method: 'get',
+  })
+}
+
+
+// 获取是否支付成功
+//  /api/payment/weixin/queryPayStatus/{orderId}
+export const getPayState = (orderId) => {
+  return request({
+    url:`/api/payment/weixin/queryPayStatus/${orderId}`,
+    method: 'get',
   })
 }
