@@ -8,37 +8,77 @@
           >我有账号，去 <router-link to="/login">登陆</router-link>
         </span>
       </h3>
+
+      <!-- 表单验证--手机号 -->
       <div class="content">
         <label>手机号:</label>
-        <input type="text" placeholder="请输入你的手机号" v-model="iphone" />
-        <span class="error-msg">错误提示信息</span>
+        <input
+          type="text"
+          placeholder="请输入你的手机号"
+          v-model="iphone"
+          name="iphone"
+          v-validate="{ required: true, regex: /^1\d{10}$/ }"
+          :class="{ invalid: errors.has('iphone') }"
+        />
+        <span class="error-msg">{{ errors.first("iphone") }}</span>
       </div>
+
+      <!-- 表单验证-- 验证码 -->
       <div class="content">
         <label>验证码:</label>
-        <input type="text" placeholder="请输入验证码" v-model="code" />
+        <input
+          type="text"
+          placeholder="请输入验证码"
+          v-model="code"
+          name="code"
+          v-validate="{ required: true, regex: /\d{6}$/ }"
+          :class="{ invalid: errors.has('code') }"
+        />
         <button style="width: 100px; height: 37px" @click="getCode">
           点击获取验证码
         </button>
-        <span class="error-msg">错误提示信息</span>
+        <span class="error-msg">{{ errors.first("code") }}</span>
       </div>
+
+      <!-- 表单验证--登录密码 -->
       <div class="content">
         <label>登录密码:</label>
         <input
           type="text"
           placeholder="请输入你的登录密码"
           v-model="password"
+          name="password"
+          v-validate="{ required: true, regex: /^[0-9a-zA-Z]{8,20}$/ }"
+          :class="{ invalid: errors.has('password') }"
         />
-        <span class="error-msg">错误提示信息</span>
+        <span class="error-msg">{{ errors.first("password") }}</span>
       </div>
+
+      <!-- 表单验证--确认密码 -->
       <div class="content">
         <label>确认密码:</label>
-        <input type="text" placeholder="请输入确认密码" v-model="password1" />
-        <span class="error-msg">错误提示信息</span>
+        <input
+          type="text"
+          placeholder="请输入确认密码"
+          v-model="password1"
+          name="password1"
+          v-validate="{ required: true, is: password }"
+          :class="{ invalid: errors.has('password1') }"
+        />
+        <span class="error-msg">{{ errors.first("password1") }}</span>
       </div>
+
+      <!-- 表单验证-- 协议是否同意 -->
       <div class="controls">
-        <input name="m1" type="checkbox" v-model="agree" />
+        <input
+          type="checkbox"
+          v-model="agree"
+          name="agree"
+          v-validate="{ required: true, agree: true }"
+          :class="{ invalid: errors.has('agree') }"
+        />
         <span>同意协议并注册《尚品汇用户协议》</span>
-        <span class="error-msg">错误提示信息</span>
+        <span class="error-msg">{{ errors.first("agree") }}</span>
       </div>
       <div class="btn">
         <button :disabled="!agree" @click="didRegister">完成注册</button>
@@ -93,19 +133,30 @@ export default {
     },
 
     async didRegister() {
-      try {
-        // 将 所有的参数都从 this 上结构出来
-        let { code, iphone, password, password1 } = this;
-        if (code && iphone && password === password1) {
-          await this.$store.dispatch("didRegister", {
-            code,
-            phone: iphone,
-            password,
-          });
-          this.$router.push({name:'login'})
+      // 在点击完成注册按钮的时候,对表单进行验证,如果表单的内容都是通过的话,就会返回 true 如果有一项不通过的话就会返回 false
+      // 这个方法是 validate 提供给我们的
+      // 如果全部通过就返回 true  有一个不通过就返回 false
+
+      const success = await this.$validator.validateAll();
+
+      // 在这里进行判断,如果全部通过的话,就发请求,如果么有的话,就不发请求
+      if (success) {
+        try {
+          // 将 所有的参数都从 this 上结构出来
+          let { code, iphone, password, password1 } = this;
+          if (code && iphone && password === password1) {
+            await this.$store.dispatch("didRegister", {
+              code,
+              phone: iphone,
+              password,
+            });
+            this.$router.push({ name: "login" });
+          }
+        } catch (error) {
+          alert(error);
         }
-      } catch (error) {
-        alert(error)
+      }else{
+        alert('注册信息不完整,请检查后再次尝试');
       }
     },
   },

@@ -1,13 +1,15 @@
 /*
  * @Date: 2021-10-18 08:50:14
  * @LastEditors: 高文海
- * @LastEditTime: 2021-11-07 23:13:21
+ * @LastEditTime: 2021-11-09 00:00:17
  * @FilePath: \VueProject\gshop\src\main.js
  */
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+
+import '@/plugins/validate'
 
 // 因为外部有许多组件都会用到 swiper 的样式,所以我们只需要在 入口文件引入一次 css 样式就行
 import 'swiper/css/swiper.css'
@@ -60,9 +62,13 @@ Vue.prototype.$message = Message;
 
 
 
-
-
-
+// ///////////////////////////////////////////////////////////
+// 使用图片懒加载
+import VueLazyload from 'vue-lazyload';
+import huge from '@/assets/images/1.jpg'
+Vue.use(VueLazyload, {
+  loading: huge,
+})
 
 
 

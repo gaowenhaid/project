@@ -138,14 +138,14 @@ export default {
           } else {
           // 如果走 else 的话,就证明当前点击的是 确定按钮 还需要判断
           //  判断当前的 code 是不是 200 如果是的话,就清除定时器,跳转路由,然后关闭对话框
-            if (this.code == "200") {
+            // if (this.code == "200") {
               clearInterval(this.timer);
               done();
               this.$router.replace("/paysuccess");
-            } else {
-            // 如果没有支付的话,就为其弹框
-              confirm('尚未查询到您的支付信息,请稍后再试')
-            }
+            // } else {
+            // // 如果没有支付的话,就为其弹框
+            //   confirm('尚未查询到您的支付信息,请稍后再试')
+            // }
           }
         },
       });

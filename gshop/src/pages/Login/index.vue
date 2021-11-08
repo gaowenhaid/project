@@ -21,15 +21,23 @@
                   type="text"
                   placeholder="邮箱/用户名/手机号"
                   v-model="phone"
+                  name="iphone"
+                  v-validate="{ required: true, regex: /^1\d{10}$/ }"
+                  :class="{ invalid: errors.has('iphone') }"
                 />
+                <i>{{ errors.first("iphone") }}</i>
               </div>
               <div class="input-text clearFix">
                 <span class="pwd"></span>
                 <input
                   type="text"
-                  placeholder="请输入密码"
+                  placeholder="请输入你的登录密码"
                   v-model="password"
+                  name="password"
+                  v-validate="{ required: true, regex: /^[0-9a-zA-Z]{8,20}$/ }"
+                  :class="{ invalid: errors.has('password') }"
                 />
+                <i>{{ errors.first("password") }}</i>
               </div>
               <div class="setting clearFix">
                 <label class="checkbox inline">
@@ -88,16 +96,23 @@ export default {
   methods: {
     // 登录按钮的回调函数
     async goLogin() {
-      try {
-        let { phone, password } = this;
-        if (phone && password) {
-          await this.$store.dispatch("login", { phone, password });
-          this.$router.push({name:'home'})
-        } else {
-          alert("账号或密码不能为空");
+      const success = await this.$validator.validateAll();
+      if (success) {
+        try {
+          let { phone, password } = this;
+          if (phone && password) {
+            await this.$store.dispatch("login", { phone, password });
+
+            // 先判读昂当前路由的 query 参数中有没有内容 如果有的话，就用里边的内容，如果没有的话 就返回 ‘/home'
+            let toPath = this.$route.query.redirect || "/home";
+            // 然后进行跳转
+            this.$router.push(toPath);
+          } else {
+            alert("账号或密码不能为空");
+          }
+        } catch (error) {
+          alert(error);
         }
-      } catch (error) {
-        alert(error);
       }
     },
   },

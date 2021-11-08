@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-11-04 19:05:06
  * @LastEditors: 高文海
- * @LastEditTime: 2021-11-05 20:20:15
+ * @LastEditTime: 2021-11-08 21:58:49
  * @FilePath: \VueProject\gshop\src\store\User\index.js
  */
 import {getCode,finishRegister,getLogin,getUserInfo,getLogOut} from '@/api';
@@ -43,6 +43,9 @@ const actions = {
         let {code,data} = await getUserInfo()
         if(code === 200){
             commit('GET_USER_INFO',data)
+            return 'ok'
+        }else{
+            return Promise.reject(new Error('faille'))
         }
         
     },

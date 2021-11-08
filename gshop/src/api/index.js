@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-10-19 16:47:43
  * @LastEditors: 高文海
- * @LastEditTime: 2021-11-07 22:18:27
+ * @LastEditTime: 2021-11-08 20:31:33
  * @FilePath: \VueProject\gshop\src\api\index.js
  */
 // 这里放的就是 将来所有的接口调用,每一个都封装成一个函数,方便统一管理
@@ -198,6 +198,15 @@ export const getPayInfo = (orderId) => {
 export const getPayState = (orderId) => {
   return request({
     url:`/api/payment/weixin/queryPayStatus/${orderId}`,
+    method: 'get',
+  })
+}
+
+
+// 获取订单交易的列表
+export const getMyOrderList = (page,limit) => {
+  return request({
+    url:`/api/order/auth/${page}/${limit}`,
     method: 'get',
   })
 }

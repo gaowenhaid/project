@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-10-18 15:25:36
  * @LastEditors: 高文海
- * @LastEditTime: 2021-11-05 21:59:40
+ * @LastEditTime: 2021-11-08 22:45:37
  * @FilePath: \VueProject\gshop\src\router\index.js
  */
 import Vue from 'vue';
@@ -76,7 +76,17 @@ router.beforeEach(async (to, from, next) => {
     // 走这里的话,就证明当前用户没有登录,在进行路由跳转,因为我们设置了临时身份
     //  所以我们直接让他爱跳哪跳哪都可以
     // console.log('去哪都行')
-    next()
+    // next()
+
+    // 用户没有登录的话,我们不能让他想跳哪跳哪,我们 需要做判断,如果用户没登录
+//      跳转的页面又是 结算 支付  支付成功  还有 个人中心的话，我们就需要将其重定向到 登录页面
+    let toPath = to.path
+    if(toPath.indexOf('pay') != -1 || toPath.indexOf('trade') != -1 || toPath.indexOf('center') != -1){
+    // 然后我们将用户想要去的 路由保存在 路径的 query参数中
+      next('/login/?redirect=' + toPath)
+    }else{
+      next()
+    }  
   }
 })
 
